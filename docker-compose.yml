@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  rabbitmq1:
+    image: "rabbitmq:3.9.3"
+    container_name: rabbitmq1
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+    volumes:
+      - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
+      - rabbit_data:/var/lib/rabbitmq/
+
+  message6.back1.1:
+    image: 'message6.back1:1'
+    container_name: message6.back1.1
+    build:
+      context: 10081Back1JavaSpring
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8080
+      - RABBIT_HOST=rabbitmq1
+    ports:
+      - "8080:8080"
+
+  message6.back1.2:
+    image: 'message6.back1:1'
+    container_name: message6.back1.2
+    build:
+      context: 10081Back1JavaSpring
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8081
+      - RABBIT_HOST=rabbitmq1
+    ports:
+      - "8081:8081"
+
+
+volumes:
+  rabbit_data:

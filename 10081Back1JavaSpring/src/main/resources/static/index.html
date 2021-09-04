@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./sockjs.min.js"></script>
+    <script src="./stomp.min.js"></script>
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.min.js"></script>-->
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>-->
+    <title>Document</title>
+</head>
+<script>
+    let origin = window.location.origin
+    let port = window.location.port
+    let port2
+    let stompClient;
+    const getPort = () => {
+        fetch(origin + '/port')
+            .then(f => {
+                console.log("f " + f)
+                return f.text();
+            }).then(g => {
+
+            port2 = g
+            console.log("g " + g)
+        })
+    }
+
+
+    const connectS = () => {
+        stompClient = Stomp.over(new SockJS(origin + '/info', null, {}));
+        stompClient.connect(
+            {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9...'}, frame => {
+            });
+    }
+
+    const disconnectS = () => {
+        stompClient.disconnect(() => {
+        }, headers = {})
+    }
+
+    let subscribe1;
+    const subscribeS = () => {
+        subscribe1 = subscribe1 === undefined ? stompClient.subscribe('/topic/messages', greeting => {
+            let p = document.getElementById('p1');
+            p.textContent =  p.textContent  + greeting.body.toString()
+        }) : subscribe1
+        console.log(subscribe1)
+    }
+
+    const unsubscribeS = () => {
+        subscribe1 = stompClient.unsubscribe(subscribe1.id, headers = {});
+        console.log(subscribe1)
+    }
+
+    const send = () => {
+        stompClient.send("/app/chat", {}, 'client ' + port);
+    }
+
+</script>
+<body>
+
+<div>
+    <div id="p1">Text</div>
+    <button onclick="connectS()">connect</button>
+    <button onclick="disconnectS()">disconnect</button>
+    <button onclick="subscribeS()">subscribe</button>
+    <button onclick="unsubscribeS()">unsubscribe</button>
+    <button onclick="getPort()">getPort</button>
+    <button onclick="send()">send</button>
+</div>
+
+<div id="d1">
+
+</div>
+
+</body>
+</html>
