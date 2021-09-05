@@ -8,6 +8,8 @@ services:
       - "5672:5672"
       - "15672:15672"
       - "61613:61613"
+      - "15674:15674"
+      - "15670:15670"
     volumes:
       - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
       - rabbit_data:/var/lib/rabbitmq/
