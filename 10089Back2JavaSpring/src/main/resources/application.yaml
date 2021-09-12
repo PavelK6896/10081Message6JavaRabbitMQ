@@ -1,0 +1,10 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path:
+
+rabbit:
+  host:
+    ${RABBIT_HOST:localhost}
+
+debug: true

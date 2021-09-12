@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>10081Back1JavaSpring</module>
+        <module>10089Back2JavaSpring</module>
     </modules>
 
     <properties>

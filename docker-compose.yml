@@ -5,14 +5,14 @@ services:
     image: "rabbitmq:3.9.3"
     container_name: rabbitmq1
     ports:
-      - "5672:5672"
+#      - "5672:5672"
       - "15672:15672"
-      - "61613:61613"
+#      - "61613:61613"
       - "15674:15674"
-      - "15670:15670"
+#      - "15670:15670"
     volumes:
       - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
-      - rabbit_data:/var/lib/rabbitmq/
+      - rabbit_data_message6.1:/var/lib/rabbitmq/
 
   message6.back1.1:
     image: 'message6.back1:1'
@@ -40,4 +40,4 @@ services:
 
 
 volumes:
-  rabbit_data:
+  rabbit_data_message6.1:
